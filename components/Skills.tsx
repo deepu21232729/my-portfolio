@@ -1,6 +1,6 @@
 import SectionHeading from "./SectionHeading";
 import { Stagger, StaggerItem } from "./Reveal";
-import { skillGroups } from "@/lib/data";
+import Skills from "@/components/Skills";
 
 export default function Skills() {
   return (
