@@ -1,6 +1,6 @@
 import SectionHeading from "./SectionHeading";
 import { Reveal } from "./Reveal";
-import { experience } from "@/lib/data";
+import { experience } from "@/data";
 
 export default function Experience() {
   return (
