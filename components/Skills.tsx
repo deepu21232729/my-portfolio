@@ -1,4 +1,3 @@
-
 import SectionHeading from "./SectionHeading";
 import { Stagger, StaggerItem } from "./Reveal";
 
