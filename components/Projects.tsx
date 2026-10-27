@@ -2,7 +2,7 @@
 import { useRef, type MouseEvent } from "react";
 import SectionHeading from "./SectionHeading";
 import { Stagger, StaggerItem } from "./Reveal";
-import { projects } from "@/lib/data";
+import { projects } from "@/data";
 
 function Card({ p, i }: { p: (typeof projects)[number]; i: number }) {
   const ref = useRef<HTMLElement>(null);
