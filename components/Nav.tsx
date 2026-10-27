@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { navLinks, profile } from "@/lib/data";
+import { navLinks, profile } from "@/data";
 
 export default function Nav() {
   const [solid, setSolid] = useState(false);
