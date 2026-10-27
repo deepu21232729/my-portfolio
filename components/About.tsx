@@ -1,7 +1,7 @@
 import Image from "next/image";
 import SectionHeading from "./SectionHeading";
 import { Reveal, Stagger, StaggerItem } from "./Reveal";
-import { focusAreas, profile } from "@/lib/data";
+import { focusAreas, profile } from "@/data";
 
 export default function About() {
   return (
