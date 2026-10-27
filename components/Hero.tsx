@@ -2,7 +2,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { profile } from "@/data";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -16,42 +16,59 @@ const line = (i: number) => ({
 function HeroVideo({
   className,
   reduced,
+  controls = false,
 }: {
   className?: string;
   reduced: boolean;
+  controls?: boolean;
 }) {
   const ref = useRef<HTMLVideoElement>(null);
+  const [soundOn, setSoundOn] = useState(false);
 
   useEffect(() => {
     const video = ref.current;
     if (!video) return;
+
+    video.muted = !soundOn;
 
     if (reduced) {
       video.pause();
       return;
     }
 
-    const playPromise = video.play();
-    if (playPromise) {
-      playPromise.catch(() => {
-        // Autoplay may be blocked by the browser.
-      });
-    }
-  }, [reduced]);
+    video.play().catch(() => {
+      // The browser may block autoplay.
+    });
+  }, [reduced, soundOn]);
 
   return (
-    <video
-      ref={ref}
-      className={className}
-      autoPlay={!reduced}
-      muted
-      loop
-      playsInline
-      preload="metadata"
-      aria-hidden="true"
-    >
-      <source src="/media/hero.mp4" type="video/mp4" />
-    </video>
+    <div className="relative h-full w-full">
+      <video
+        ref={ref}
+        className={className}
+        autoPlay={!reduced}
+        muted={!soundOn}
+        loop
+        playsInline
+        preload="metadata"
+        aria-label={controls ? "Portfolio introduction video" : undefined}
+        aria-hidden={!controls}
+      >
+        <source src="/media/hero.mp4" type="video/mp4" />
+        Your browser does not support HTML video.
+      </video>
+
+      {controls && (
+        <button
+          type="button"
+          onClick={() => setSoundOn((previous) => !previous)}
+          className="absolute bottom-3 right-3 z-10 rounded-full border border-white/30 bg-black/75 px-4 py-2 text-sm text-white transition hover:border-accent hover:text-accent"
+          aria-label={soundOn ? "Mute video audio" : "Enable video audio"}
+        >
+          {soundOn ? "Mute sound" : "Enable sound"}
+        </button>
+      )}
+    </div>
   );
 }
 
@@ -64,7 +81,7 @@ export default function Hero() {
       id="top"
       className="grain relative flex min-h-[100svh] items-center overflow-hidden pb-16 pt-28"
     >
-      {/* Ambient background video */}
+      {/* Decorative background video — always muted */}
       <div className="absolute inset-0 -z-10" aria-hidden="true">
         <HeroVideo
           reduced={reduced}
@@ -76,6 +93,7 @@ export default function Hero() {
       </div>
 
       <div className="container-x grid items-center gap-14 lg:grid-cols-[1.15fr_0.85fr]">
+        {/* Hero text */}
         <div>
           <motion.p {...line(0)} className="eyebrow mb-7">
             {profile.role} · {profile.location.split(",")[0]}
@@ -132,6 +150,7 @@ export default function Hero() {
           </motion.div>
         </div>
 
+        {/* Portrait video with sound control */}
         <motion.div
           initial={{ opacity: 0, scale: 0.94, y: 30 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -146,6 +165,7 @@ export default function Hero() {
           <div className="relative aspect-[400/368] overflow-hidden rounded-[1.75rem] border border-white/10 shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)]">
             <HeroVideo
               reduced={reduced}
+              controls
               className="h-full w-full object-cover"
             />
             <div className="pointer-events-none absolute inset-0 rounded-[1.75rem] ring-1 ring-inset ring-white/10" />
@@ -157,6 +177,7 @@ export default function Hero() {
         </motion.div>
       </div>
 
+      {/* Scroll indicator */}
       <motion.a
         href="#about"
         aria-label="Scroll to About"
