@@ -1,5 +1,5 @@
 import { Reveal, Stagger, StaggerItem } from "./Reveal";
-import { profile } from "@/lib/data";
+import { profile } from "@/data";
 
 const links = [
   { label: "Email", value: profile.email, href: `mailto:${profile.email}` },
