@@ -1,7 +1,7 @@
 "use client";
 import { motion, useReducedMotion } from "framer-motion";
 import { useEffect, useRef } from "react";
-import { profile } from "@/lib/data";
+import { profile } from "@/data";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 const line = (i: number) => ({
